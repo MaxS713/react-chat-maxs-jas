@@ -1,30 +1,39 @@
 {
-  "name": "react-chat",
-  "version": "1.0.0",
-  "description": "You will be creating a piece of full stack software: a chat application.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "setup": "npm install && cd client && npm install"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
     "all": "^0.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.3",
-    "mongodb": "^4.4.1",
-    "mongoose": "^6.2.8"
+    "mongoose": "^6.2.10",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.0",
+    "uuid": "^8.3.2"
   },
-  "proxy": "http://localhost:5000",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/burlingtoncodeacademy-students/react-chat-maxs-jas.git"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "bugs": {
-    "url": "https://github.com/burlingtoncodeacademy-students/react-chat-maxs-jas/issues"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
-  "homepage": "https://github.com/burlingtoncodeacademy-students/react-chat-maxs-jas#readme"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
