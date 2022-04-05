@@ -31,7 +31,7 @@ function App() {
       let pingAudio = new Audio(Ping);
       pingAudio.play();
 
-      await fetch("http://localhost:5000/api/add-message", {
+      await fetch("api/add-message", {
         headers: {"content-type": "application/json"},
         method: "POST",
         body: JSON.stringify(input),
@@ -42,7 +42,7 @@ function App() {
   }
 
   async function getData() {
-    let allMessages = await fetch("http://localhost:5000/api/");
+    let allMessages = await fetch("api/get-all-messages");
     allMessages = await allMessages.json();
     setMessageData(allMessages.reverse());
   }
