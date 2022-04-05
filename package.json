@@ -18,6 +18,7 @@
     "mongodb": "^4.4.1",
     "mongoose": "^6.2.8"
   },
+  "proxy": "http://localhost:5000",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/burlingtoncodeacademy-students/react-chat-maxs-jas.git"
