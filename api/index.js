@@ -25,19 +25,15 @@ const messageSchema = new mongoose.Schema({
 const Message = mongoose.model("messages", messageSchema);
 
 app.get("/api", async (req, res) => {
-  res.send("Main")
-});
-
-app.get("/get-all-messages", async (req, res) => {
   let allMessages = await Message.find({});
   res.send(allMessages);
 });
 
-app.post("/add-message", async (req, res) => {
+app.post("/api/add-message", async (req, res) => {
   let message = new Message(req.body);
   let currentDate = new Date().toLocaleString();
   message.when = currentDate
-  message.save();
+  await message.save();
 });
 
 app.listen(port, () => {
