@@ -31,7 +31,7 @@ function App() {
       let pingAudio = new Audio(Ping);
       pingAudio.play();
 
-      await fetch("http://localhost:5000/api/add-message", {
+      await fetch("http://localhost:5000/add-message", {
         headers: {"content-type": "application/json"},
         method: "POST",
         body: JSON.stringify(input),
@@ -42,17 +42,17 @@ function App() {
   }
 
   async function getData() {
-    let allMessages = await fetch("http://localhost:5000/api/get-all-messages");
+    let allMessages = await fetch("http://localhost:5000/get-all-messages");
     allMessages = await allMessages.json();
     setMessageData(allMessages.reverse());
   }
 
   useEffect(() => {
-    // const fetchNewData = () => {
+    const fetchNewData = () => {
     getData();
-    //   setTimeout(fetchNewData, 2000);
-    // };
-    // setTimeout(fetchNewData, 2000);
+      setTimeout(fetchNewData, 2000);
+    };
+    setTimeout(fetchNewData, 2000);
   }, []);
 
   let images = [Picture, Picture2];

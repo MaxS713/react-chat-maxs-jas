@@ -1,7 +1,6 @@
-
 const express = require("express");
 const port = process.env.PORT || 5000;
-const cors = require("cors");
+const cors = require("cors"); 
 const app = require('express')();
 
 app.use(cors());
@@ -25,7 +24,11 @@ const messageSchema = new mongoose.Schema({
 
 const Message = mongoose.model("messages", messageSchema);
 
-app.get("api/get-all-messages", async (req, res) => {
+app.get("/", async (req, res) => {
+  res.send("Main")
+});
+
+app.get("/get-all-messages", async (req, res) => {
   let allMessages = await Message.find({});
   res.send(allMessages);
 });
