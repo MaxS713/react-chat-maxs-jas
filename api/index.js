@@ -24,7 +24,7 @@ const messageSchema = new mongoose.Schema({
 
 const Message = mongoose.model("messages", messageSchema);
 
-app.get("/", async (req, res) => {
+app.get("/api", async (req, res) => {
   res.send("Main")
 });
 
