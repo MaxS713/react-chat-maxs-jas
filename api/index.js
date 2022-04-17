@@ -26,18 +26,18 @@ const messageSchema = new mongoose.Schema({
 const Message = mongoose.model("messages", messageSchema);
 
 async function clearOldMessages() {
-  let currentTime = new Date();
+  let currentTime = Date.now();
   let allMessages = await Message.find({});
   for (let message of allMessages) {
     if (message.dateCreated && currentTime - message.dateCreated > 900000) {
-      await deleteOne({_id: message._id});
+      await Message.deleteOne({_id: message._id});
     }
   }
 }
+clearOldMessages()
 
 
 app.get("/api", (req, res) => {
-  clearOldMessages()
   const path = `/api/item/${v4()}`;
   res.setHeader("Content-Type", "text/html");
   res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");

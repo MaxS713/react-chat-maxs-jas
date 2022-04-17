@@ -46,12 +46,11 @@ function App() {
     allMessages = await allMessages.json();
     allMessages.forEach((message) => {
       if (message.dateCreated) {
-        message.when = message.dateCreated.toLocaleString();
+        message.when = new Date(message.dateCreated).toLocaleString();
       }
     });
     setMessageData(allMessages.reverse());
   }
-
   useEffect(() => {
     const fetchNewData = () => {
       getData();
