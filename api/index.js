@@ -34,8 +34,6 @@ async function clearOldMessages() {
     }
   }
 }
-clearOldMessages()
-
 
 app.get("/api", (req, res) => {
   const path = `/api/item/${v4()}`;
@@ -63,7 +61,8 @@ app.post("/api/add-message", async (req, res) => {
   await message.save();
 });
 
-app.listen(port, () => {
+app.listen(port, async () => {
+  await clearOldMessages()
   console.log("Now listening on http://localhost:" + port);
 });
 
