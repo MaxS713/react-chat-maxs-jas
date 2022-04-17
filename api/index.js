@@ -4,7 +4,6 @@ const cors = require("cors");
 const app = require("express")();
 const {v4} = require("uuid");
 
-
 const mongoose = require("mongoose");
 
 mongoose.connect(
@@ -21,10 +20,22 @@ const messageSchema = new mongoose.Schema({
   messageBody: String,
   room: String,
   when: String,
+  dateCreated: Number,
 });
 
 const Message = mongoose.model("messages", messageSchema);
 
+async function clearOldMessages() {
+  let currentTime = new Date();
+  let allMessages = await Message.find({});
+  for (let message of allMessages) {
+    if (message.dateCreated && currentTime - message.dateCreated > 90000) {
+      await deleteOne(message);
+    }
+  }
+}
+
+clearOldMessages()
 
 app.get("/api", (req, res) => {
   const path = `/api/item/${v4()}`;
@@ -45,8 +56,10 @@ app.get("/api/get-all-messages", async (req, res) => {
 
 app.post("/api/add-message", async (req, res) => {
   let message = new Message(req.body);
-  let currentDate = new Date().toLocaleString();
-  message.when = currentDate
+  let currentTime = new Date();
+  let currentDate = currentTime.toLocaleString();
+  message.when = currentDate;
+  message.dateCreated = currentTime;
   await message.save();
 });
 
