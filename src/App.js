@@ -44,6 +44,11 @@ function App() {
   async function getData() {
     let allMessages = await fetch("api/get-all-messages");
     allMessages = await allMessages.json();
+    allMessages.forEach((message)=>{
+      if(message.dateCreated){
+        message.when = dateCreated.toLocaleString();
+      }
+    })
     setMessageData(allMessages.reverse());
   }
 

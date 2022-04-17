@@ -34,9 +34,10 @@ async function clearOldMessages() {
     }
   }
 }
-clearOldMessages()
+
 
 app.get("/api", (req, res) => {
+  clearOldMessages()
   const path = `/api/item/${v4()}`;
   res.setHeader("Content-Type", "text/html");
   res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
