@@ -29,13 +29,11 @@ async function clearOldMessages() {
   let currentTime = new Date();
   let allMessages = await Message.find({});
   for (let message of allMessages) {
-    if (message.dateCreated && currentTime - message.dateCreated > 90000) {
+    if (message.dateCreated && currentTime - message.dateCreated > 900000) {
       await deleteOne(message);
     }
   }
 }
-
-clearOldMessages()
 
 app.get("/api", (req, res) => {
   const path = `/api/item/${v4()}`;
@@ -64,6 +62,7 @@ app.post("/api/add-message", async (req, res) => {
 });
 
 app.listen(port, () => {
+  clearOldMessages()
   console.log("Now listening on http://localhost:" + port);
 });
 
