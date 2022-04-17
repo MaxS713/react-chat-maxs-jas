@@ -52,6 +52,10 @@ app.get("/api/get-all-messages", async (req, res) => {
   res.send(allMessages);
 });
 
+app.get("/api/clear-messages", async (req, res) => {
+  await clearOldMessages()
+});
+
 app.post("/api/add-message", async (req, res) => {
   let message = new Message(req.body);
   let currentTime = new Date();
@@ -62,7 +66,6 @@ app.post("/api/add-message", async (req, res) => {
 });
 
 app.listen(port, async () => {
-  await clearOldMessages()
   console.log("Now listening on http://localhost:" + port);
 });
 

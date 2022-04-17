@@ -41,6 +41,13 @@ function App() {
     }
   }
 
+  async function clearOldMessages() {
+    await fetch("api/clear-messages");
+  }
+  useEffect(() => {
+    clearOldMessages()
+  }, []);
+
   async function getData() {
     let allMessages = await fetch("api/get-all-messages");
     allMessages = await allMessages.json();
