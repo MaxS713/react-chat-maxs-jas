@@ -3,12 +3,10 @@ const port = process.env.PORT || 5000;
 const cors = require("cors");
 const app = require("express")();
 const {v4} = require("uuid");
-
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-mongoose.connect(
-  "mongodb+srv://MaxS713:nwcc4cJr0mTYpju4@cluster0.bgmkx.mongodb.net/messages"
-);
+mongoose.connect(process.env.MONGODB_URI)
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 
@@ -53,7 +51,7 @@ app.get("/api/get-all-messages", async (req, res) => {
 });
 
 app.get("/api/clear-messages", async (req, res) => {
-  await clearOldMessages()
+  await clearOldMessages();
 });
 
 app.post("/api/add-message", async (req, res) => {
