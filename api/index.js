@@ -1,13 +1,17 @@
 const express = require("express");
-const port = process.env.PORT || 5000;
 const cors = require("cors");
 const app = require("express")();
-const {v4} = require("uuid");
+const { v4 } = require("uuid");
 const mongoose = require("mongoose");
+
 require("dotenv").config();
 
-mongoose.connect(process.env.MONGODB_URI)
+const port = 5000;
+
+mongoose.connect(process.env.MONGODB_URI);
+
 const db = mongoose.connection;
+
 db.on("error", console.error.bind(console, "connection error"));
 
 app.use(cors());
@@ -23,17 +27,7 @@ const messageSchema = new mongoose.Schema({
 
 const Message = mongoose.model("messages", messageSchema);
 
-async function clearOldMessages() {
-  let currentTime = Date.now();
-  let allMessages = await Message.find({});
-  for (let message of allMessages) {
-    if (message.dateCreated && currentTime - message.dateCreated > 900000) {
-      await Message.deleteOne({_id: message._id});
-    }
-  }
-}
-
-app.get("/api", (req, res) => {
+app.get("/api", (_, res) => {
   const path = `/api/item/${v4()}`;
   res.setHeader("Content-Type", "text/html");
   res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
@@ -41,30 +35,36 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/item/:slug", (req, res) => {
-  const {slug} = req.params;
+  const { slug } = req.params;
   res.end(`Item: ${slug}`);
 });
 
-app.get("/api/get-all-messages", async (req, res) => {
-  let allMessages = await Message.find({});
+app.get("/api/get-all-messages", async (_, res) => {
+  const allMessages = await Message.find({});
   res.send(allMessages);
 });
 
-app.get("/api/clear-messages", async (req, res) => {
-  await clearOldMessages();
+app.get("/api/clear-messages", async () => {
+  const currentTime = Date.now();
+  const allMessages = await Message.find({});
+  for (const message of allMessages) {
+    if (message.dateCreated && currentTime - message.dateCreated > 900000) {
+      await Message.deleteOne({ _id: message._id });
+    }
+  }
 });
 
-app.post("/api/add-message", async (req, res) => {
-  let message = new Message(req.body);
-  let currentTime = new Date();
-  let currentDate = currentTime.toLocaleString();
+app.post("/api/add-message", async (req) => {
+  const message = new Message(req.body);
+  const currentTime = new Date();
+  const currentDate = currentTime.toLocaleString();
   message.when = currentDate;
   message.dateCreated = currentTime;
   await message.save();
 });
 
 app.listen(port, async () => {
-  console.log("Now listening on http://localhost:" + port);
+  console.log(`Now listening on http://localhost:${port}`);
 });
 
 module.exports = app;
