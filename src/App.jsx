@@ -24,9 +24,7 @@ function App() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const checkInputArray = input.messageBody.split("");
-
-    if (checkInputArray.length <= 500) {
+    if (input.messageBody.length <= 500) {
       const clearInput = { ...input, messageBody: "" };
       setInput(clearInput);
 
@@ -46,6 +44,7 @@ function App() {
   async function clearOldMessages() {
     await fetch("api/clear-messages");
   }
+
   useEffect(() => {
     clearOldMessages();
   }, []);
