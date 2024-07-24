@@ -31,11 +31,17 @@ function App() {
       const pingAudio = new Audio(Ping);
       pingAudio.play();
 
+      const newMessages = [...messageData]
+      newMessages.unshift({ ...input, when: new Date().toLocaleString() })
+      setMessageData(newMessages);
+
       await fetch("api/add-message", {
         headers: { "content-type": "application/json" },
         method: "POST",
         body: JSON.stringify(input),
       });
+
+
     } else {
       alert("Please input less than 500 characters...");
     }
@@ -45,9 +51,7 @@ function App() {
     await fetch("api/clear-messages");
   }
 
-  useEffect(() => {
-    clearOldMessages();
-  }, []);
+  useEffect(() => { clearOldMessages() }, []);
 
   async function getData() {
     let allMessages = await fetch("api/get-all-messages");
@@ -62,29 +66,17 @@ function App() {
     setMessageData(allMessages.reverse());
   }
 
-  useEffect(() => {
-    const fetchNewData = () => {
-      getData();
-      setTimeout(fetchNewData, 2000);
-    };
-    setTimeout(fetchNewData, 2000);
-  }, []);
+  useEffect(() => { getData() }, []);
 
   const images = [Picture, Picture2];
 
   const [currentImage, setCurrentImage] = useState(0);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (currentImage === images.length - 1) {
-        setCurrentImage(0);
-      } else {
-        setCurrentImage(currentImage + 1);
-      }
-    }, 10000);
+    const intervalId = setInterval(() => setCurrentImage(currentImage === 0 ? 1 : 0), 10000);
 
     return () => clearInterval(intervalId);
-  }, [currentImage, images.length]);
+  });
 
   return (
     <main>
